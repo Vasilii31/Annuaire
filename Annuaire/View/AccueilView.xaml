@@ -1,0 +1,125 @@
+﻿<UserControl x:Class="Annuaire.View.AccueilView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:Template="clr-namespace:Annuaire.View.Template"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="Cyan">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+       
+        <!-- Espace recherche -->
+        <Grid Grid.Row="0" Grid.Column="1" Background="Bisque" Height="100"></Grid>
+
+        <Grid Grid.Row="1" Grid.Column="1" Visibility="{Binding SalarieLoadingVisibility}">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" TextWrapping="Wrap" Text="Chargement des salariés..."/>
+        </Grid>
+        <!-- Espace affichage Salaries-->
+        <Grid Grid.Row="1" Grid.Column="1" Visibility="{Binding SalarieListVisibility}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <!-- Espace des deux listes gauches et droite -->
+            <Grid Grid.Row="0" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- - - - - - - - - -   LISTE DE GAUCHE - - - - - - - - - - - - - -  -->
+                <!-- - - - - - - - - -   LISTE DE GAUCHE - - - - - - - - - - - - - -  -->
+                <!-- - - - - - - - - -   LISTE DE GAUCHE - - - - - - - - - - - - - -  -->
+                <ListBox ItemsSource="{Binding ListeGauche}" Grid.Column="0" MaxHeight="350" MinWidth="350">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    
+                                    <ColumnDefinition Width="40" />
+
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock  Grid.Column="0" Text="{Binding FullName}" FontSize="20"  HorizontalAlignment="Left" FontWeight="Bold" Margin="10" />
+                                <Template:BoutonConsultation Grid.Column="1" Margin="3"/>
+
+
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <!-- ListBox ItemTemplate stretch horizontally -->
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+
+                <!-- - - - - - - - - -   LISTE DE DROITE - - - - - - - - - - - - - -  -->
+                <!-- - - - - - - - - -   LISTE DE DROITE - - - - - - - - - - - - - -  -->
+                <!-- - - - - - - - - -   LISTE DE DROITE - - - - - - - - - - - - - -  -->
+
+                <ListBox ItemsSource="{Binding ListeDroite}" Grid.Column="2" MaxHeight="350" MinWidth="350">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="40" />
+
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding FullName}" FontSize="20"  HorizontalAlignment="Left" FontWeight="Bold" Margin="10" />
+                                <Template:BoutonConsultation Grid.Column="1" Margin="3" />
+
+
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <!-- ListBox ItemTemplate stretch horizontally -->
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+
+
+            </Grid>
+            
+            <!-- Espace des boutons d'affichage de page-->
+            <Grid Grid.Row="1" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!--<Button Grid.Column="0" Content="Page Précedente" Command="{Binding PreviousPageCommand}"/>-->
+                <Template:ButonNormal Grid.Column="0" Content="Page Précedente" Command="{Binding PreviousPageCommand}" Width="100" />
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="10">
+                    <TextBlock FontSize="16" FontWeight="Bold" Text="{Binding CurrentPage}"/>
+                    <TextBlock FontSize="16" FontWeight="Bold" Text=" / "/>
+                    <TextBlock FontSize="16" FontWeight="Bold" Text="{Binding NumberOfPages}"/>
+                </StackPanel>
+                <Template:ButonNormal  Grid.Column="2" Content="Page Suivante" Command="{Binding NextPageCommand}" Width="100" />
+                <!--<Button Grid.Column="2" Content="Page Suivante" Command="{Binding NextPageCommand}"/>-->
+
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

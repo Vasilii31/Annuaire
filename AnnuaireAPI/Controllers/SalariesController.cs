@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AnnuaireLib;
 using AnnuaireLib.DAO;
+using AnnuaireLib.Context;
+using AnnuaireLib.Extensions;
+using AnnuaireLib.DTO;
 
 namespace AnnuaireAPI.Controllers
 {
@@ -23,16 +25,25 @@ namespace AnnuaireAPI.Controllers
 
         // GET: api/Salaries
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Salarie>>> GetSalarie()
+        public async Task<ActionResult<IEnumerable<SalarieLight>>> GetSalarie()
         {
-            return await _context.Salarie.ToListAsync();
+            var test = await _context.Salarie
+				.OrderBy(x => x.Name)
+				.Select(p => p.ToLightDTO())
+				.ToListAsync();
+            return test;
         }
 
         // GET: api/Salaries/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Salarie>> GetSalarie(int id)
         {
-            var salarie = await _context.Salarie.FindAsync(id);
+            var salarie = await _context.Salarie
+                .Include(x => x.Service)
+                .Include(x => x.Site)
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+                
 
             if (salarie == null)
             {

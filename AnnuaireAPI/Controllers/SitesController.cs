@@ -1,11 +1,11 @@
-﻿using AnnuaireLib;
+﻿using AnnuaireLib.Context;
 using AnnuaireLib.DAO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AnnuaireAPI.Controllers
 {
-	[Route("api/[controller]")]
+    [Route("api/[controller]")]
 	[ApiController]
 	public class SitesController : ControllerBase
 	{
