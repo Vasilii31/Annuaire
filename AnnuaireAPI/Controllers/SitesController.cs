@@ -1,5 +1,6 @@
 ﻿using AnnuaireLib.Context;
 using AnnuaireLib.DAO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,7 +39,7 @@ namespace AnnuaireAPI.Controllers
 		}
 
 		// PUT: api/Sites/5
-		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+		[Authorize(Roles = "Admin")]
 		[HttpPut("{id}")]
 		public async Task<IActionResult> PutSite(int id, Site site)
 		{
@@ -69,7 +70,7 @@ namespace AnnuaireAPI.Controllers
 		}
 
 		// POST: api/Sites
-		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+		[Authorize(Roles = "Admin")]
 		[HttpPost]
 		public async Task<ActionResult<Site>> PostSite(Site site)
 		{
@@ -80,6 +81,7 @@ namespace AnnuaireAPI.Controllers
 		}
 
 		// DELETE: api/Sites/5
+		[Authorize(Roles = "Admin")]
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteSite(int id)
 		{

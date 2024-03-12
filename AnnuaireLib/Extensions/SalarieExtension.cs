@@ -12,7 +12,7 @@ namespace AnnuaireLib.Extensions
 	{
 		public static SalarieLight? ToLightDTO(this Salarie salarie)
 		{
-			return new SalarieLight { Id = salarie.Id, Name = salarie.Name, Surname = salarie.Surname };
+			return new SalarieLight { Id = salarie.Id, Name = salarie.Name, Surname = salarie.Surname, Site = salarie.Site.Town, Service = salarie.Service.Name };
 		}
 	}
 }

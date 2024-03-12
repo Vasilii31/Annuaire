@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="Annuaire.View.SalarieDetails"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Annuaire.View" xmlns:Template="clr-namespace:Annuaire.View.Template"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="Gray">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock  Text="Nom : " Margin="10" FontSize="20" FontWeight="Bold"></TextBlock>
+            <TextBlock  Text="{Binding CurrentSalarie.Name}" Margin="10" FontSize="20" Visibility="{Binding ConsultVisibility}"/>
+            <TextBox  Text="{Binding CurrentSalarie.Name}" Margin="10" FontSize="20" Visibility="{Binding ModifyVisibility}" HorizontalContentAlignment="Stretch" Width="200"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock  Text="Prénom : " Margin="10" FontSize="20" FontWeight="Bold"></TextBlock>
+            <TextBlock  Text="{Binding CurrentSalarie.Surname}" Margin="10" FontSize="20" Visibility="{Binding ConsultVisibility}"/>
+            <TextBox  Text="{Binding CurrentSalarie.Surname}" Margin="10" FontSize="20" Visibility="{Binding ModifyVisibility}" HorizontalContentAlignment="Stretch" Width="200"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock  Text="Service : " Margin="10" FontSize="20" FontWeight="Bold"></TextBlock>
+            <TextBlock  Text="{Binding CurrentSalarie.Service.Name}" Margin="10" FontSize="20" Visibility="{Binding ConsultVisibility}"/>
+            <ComboBox  Height="30"  ItemsSource="{Binding ListeService}" Visibility="{Binding ModifyVisibility}" DisplayMemberPath="Name" SelectedItem="{Binding CurrentSalarie.Service}" Width="200"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock  Text="Site : " Margin="10" FontSize="20" FontWeight="Bold"></TextBlock>
+            <TextBlock  Text="{Binding CurrentSalarie.Site.Town}" Margin="10" FontSize="20"  Visibility="{Binding ConsultVisibility}"/>
+            <ComboBox  Height="30"  ItemsSource="{Binding ListeSite}" Visibility="{Binding ModifyVisibility}" DisplayMemberPath="Town" SelectedItem="{Binding CurrentSalarie.Site}" Width="200"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock  Text="Tel. fixe : " Margin="10" FontSize="20" FontWeight="Bold"></TextBlock>
+            <TextBlock  Text="{Binding CurrentSalarie.PhoneNumber}" Margin="10" FontSize="20"  Visibility="{Binding ConsultVisibility}"/>
+            <TextBox  Text="{Binding CurrentSalarie.PhoneNumber}" Margin="10" FontSize="20" Visibility="{Binding ModifyVisibility}" HorizontalContentAlignment="Stretch" Width="200"/>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock  Text="Tel. Portable : " Margin="10" FontSize="20" FontWeight="Bold"></TextBlock>
+            <TextBlock  Text="{Binding CurrentSalarie.CellPhoneNumber}" Margin="10" FontSize="20"  Visibility="{Binding ConsultVisibility}"/>
+            <TextBox  Text="{Binding CurrentSalarie.CellPhoneNumber}" Margin="10" FontSize="20" Visibility="{Binding ModifyVisibility}" HorizontalContentAlignment="Stretch" Width="200"/>
+        </StackPanel>
+        <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock  Text="Mail : " Margin="10" FontSize="20" FontWeight="Bold"></TextBlock>
+            <TextBlock  Text="{Binding CurrentSalarie.Email}" Margin="10" FontSize="20"  Visibility="{Binding ConsultVisibility}"/>
+            <TextBox  Text="{Binding CurrentSalarie.Email}" Margin="10" FontSize="20" Visibility="{Binding ModifyVisibility}" HorizontalContentAlignment="Stretch" Width="200"/>
+        </StackPanel>
+        <Template:ButonNormal Grid.Row="5" Grid.Column="1" Height="40" Width="100" Content="Fermer" Background="DarkRed" Command="{Binding FermerDetailsCommand}"/>
+        <Template:ButonNormal Grid.Row="4" Grid.Column="1" Height="40" Width="100" Content="Modifier" Background="Blue" Visibility="{Binding AdminContentVisibility}" Command="{Binding ModifySalarieCommand}"/>
+        <Template:ButonNormal Grid.Row="5" Grid.Column="0" Height="40" Width="100" Content="Valider" Background="DarkOliveGreen" Visibility="{Binding AdminContentVisibility}" Command="{Binding ValidateSalarieCommand}"/>
+    </Grid>
+    
+</UserControl>

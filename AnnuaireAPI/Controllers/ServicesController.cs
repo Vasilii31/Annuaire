@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AnnuaireLib.DAO;
 using AnnuaireLib.Context;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AnnuaireAPI.Controllers
 {
@@ -42,9 +43,9 @@ namespace AnnuaireAPI.Controllers
             return service;
         }
 
-        // PUT: api/Services/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+		// PUT: api/Services/5
+		[Authorize(Roles = "Admin")]
+		[HttpPut("{id}")]
         public async Task<IActionResult> PutService(int id, Service service)
         {
             if (id != service.Id)
@@ -73,9 +74,9 @@ namespace AnnuaireAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Services
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+		// POST: api/Services
+		[Authorize(Roles = "Admin")]
+		[HttpPost]
         public async Task<ActionResult<Service>> PostService(Service service)
         {
             _context.Service.Add(service);
@@ -84,8 +85,9 @@ namespace AnnuaireAPI.Controllers
             return CreatedAtAction("GetService", new { id = service.Id }, service);
         }
 
-        // DELETE: api/Services/5
-        [HttpDelete("{id}")]
+		// DELETE: api/Services/5
+		[Authorize(Roles = "Admin")]
+		[HttpDelete("{id}")]
         public async Task<IActionResult> DeleteService(int id)
         {
             var service = await _context.Service.FindAsync(id);

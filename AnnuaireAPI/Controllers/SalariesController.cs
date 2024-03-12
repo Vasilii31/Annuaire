@@ -9,111 +9,145 @@ using AnnuaireLib.DAO;
 using AnnuaireLib.Context;
 using AnnuaireLib.Extensions;
 using AnnuaireLib.DTO;
+using System.Security.Cryptography.Xml;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AnnuaireAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class SalariesController : ControllerBase
-    {
-        private readonly AnnuaireDbContext _context;
+	
+	[Route("api/[controller]")]
+	[ApiController]
+	public class SalariesController : ControllerBase
+	{
+		private readonly AnnuaireDbContext _context;
 
-        public SalariesController(AnnuaireDbContext context)
-        {
-            _context = context;
-        }
+		public SalariesController(AnnuaireDbContext context)
+		{
+			_context = context;
+		}
 
-        // GET: api/Salaries
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<SalarieLight>>> GetSalarie()
-        {
-            var test = await _context.Salarie
+		// GET: api/Salaries
+		[HttpGet]
+		public async Task<ActionResult<IEnumerable<SalarieLight>>> GetSalarie()
+		{
+			var test = await _context.Salarie
+				.Include(x => x.Service)
+				.Include(x => x.Site)
 				.OrderBy(x => x.Name)
 				.Select(p => p.ToLightDTO())
 				.ToListAsync();
-            return test;
-        }
+			return test;
+		}
 
-        // GET: api/Salaries/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Salarie>> GetSalarie(int id)
-        {
-            var salarie = await _context.Salarie
-                .Include(x => x.Service)
-                .Include(x => x.Site)
-                .Where(x => x.Id == id)
-                .FirstOrDefaultAsync();
-                
+		[HttpGet("PerSite/{id}")]
+		public async Task<ActionResult<IEnumerable<SalarieLight>>> GetSalariePerSite(int id)
+		{
+			var test = await _context.Salarie
+				.Where(x => x.SiteId == id)
+				.Include(x => x.Service)
+				.Include(x => x.Site)
+				.OrderBy(x => x.Name)
+				.Select(p => p.ToLightDTO())
+				.ToListAsync();
+			return test;
+		}
 
-            if (salarie == null)
-            {
-                return NotFound();
-            }
+		[HttpGet("PerServices/{id}")]
+		public async Task<ActionResult<IEnumerable<SalarieLight>>> GetSalariePerService(int id)
+		{
+			var test = await _context.Salarie
+				.Where(x => x.ServiceId == id)
+				.Include(x => x.Service)
+				.Include(x => x.Site)
+				.OrderBy(x => x.Name)
+				.Select(p => p.ToLightDTO())
+				.ToListAsync();
+			return test;
+		}
 
-            return salarie;
-        }
+		// GET: api/Salaries/5
+		[HttpGet("{id}")]
+		public async Task<ActionResult<Salarie>> GetSalarie(int id)
+		{
+			var salarie = await _context.Salarie
+				.Include(x => x.Service)
+				.Include(x => x.Site)
+				.Where(x => x.Id == id)
+				.FirstOrDefaultAsync();
 
-        // PUT: api/Salaries/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutSalarie(int id, Salarie salarie)
-        {
-            if (id != salarie.Id)
-            {
-                return BadRequest();
-            }
 
-            _context.Entry(salarie).State = EntityState.Modified;
+			if (salarie == null)
+			{
+				return NotFound();
+			}
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SalarieExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+			return salarie;
+		}
 
-            return NoContent();
-        }
+		// PUT: api/Salaries/5
+		[Authorize(Roles = "Admin")]
+		[HttpPut("{id}")]
+		public async Task<IActionResult> PutSalarie(int id, Salarie salarie)
+		{
+			if (id != salarie.Id)
+			{
+				return BadRequest();
+			}
 
-        // POST: api/Salaries
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Salarie>> PostSalarie(Salarie salarie)
-        {
-            _context.Salarie.Add(salarie);
-            await _context.SaveChangesAsync();
+			_context.Entry(salarie).State = EntityState.Modified;
 
-            return CreatedAtAction("GetSalarie", new { id = salarie.Id }, salarie);
-        }
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!SalarieExists(id))
+				{
+					return NotFound();
+				}
+				else
+				{
+					throw;
+				}
+			}
 
-        // DELETE: api/Salaries/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSalarie(int id)
-        {
-            var salarie = await _context.Salarie.FindAsync(id);
-            if (salarie == null)
-            {
-                return NotFound();
-            }
+			return NoContent();
+		}
 
-            _context.Salarie.Remove(salarie);
-            await _context.SaveChangesAsync();
+		// POST: api/Salaries
 
-            return NoContent();
-        }
+		[Authorize(Roles = "Admin")]
+		[HttpPost]
+		public async Task<ActionResult<Salarie>> PostSalarie(Salarie salarie)
+		{
 
-        private bool SalarieExists(int id)
-        {
-            return _context.Salarie.Any(e => e.Id == id);
-        }
-    }
+			_context.Salarie.Add(salarie);
+			await _context.SaveChangesAsync();
+
+			return CreatedAtAction("GetSalarie", new { id = salarie.Id }, salarie);
+		}
+
+		// DELETE: api/Salaries/5
+		[Authorize(Roles = "Admin")]
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteSalarie(int id)
+		{
+			var salarie = await _context.Salarie.FindAsync(id);
+			if (salarie == null)
+			{
+				return NotFound();
+			}
+
+			_context.Salarie.Remove(salarie);
+			await _context.SaveChangesAsync();
+
+			return NoContent();
+		}
+
+		private bool SalarieExists(int id)
+		{
+			return _context.Salarie.Any(e => e.Id == id);
+		}
+	}
 }

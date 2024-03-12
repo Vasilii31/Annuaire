@@ -1,9 +1,7 @@
-﻿using Annuaire.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,25 +16,13 @@ using System.Windows.Shapes;
 namespace Annuaire.View
 {
 	/// <summary>
-	/// Logique d'interaction pour AccueilView.xaml
+	/// Logique d'interaction pour AdminView.xaml
 	/// </summary>
-	public partial class AccueilView : UserControl
+	public partial class AdminView : UserControl
 	{
-		public AccueilView()
+		public AdminView()
 		{
 			InitializeComponent();
-		}
-
-		private void textChangedEventHandler(object sender, TextChangedEventArgs args)
-		{
-
-			var item = (TextBox)sender;
-
-			AccueilViewModel dtC = (AccueilViewModel)item.DataContext;
-
-			dtC.SearchQuery = item.Text;
-			dtC.ReloadList();
-			
 		}
 	}
 }

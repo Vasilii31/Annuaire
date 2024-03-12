@@ -15,10 +15,10 @@ namespace AnnuaireLib.DAO
 
 		[ForeignKey(nameof(Service))]
 		public int ServiceId { get; set; }
-		public virtual Service Service { get; set; } = null!;
+		public virtual Service? Service { get; set; } 
 
 		[ForeignKey(nameof(Site))]
 		public int SiteId { get; set; }
-		public virtual Site Site { get; set; } = null!;
+		public virtual Site? Site { get; set; }
 	}
 }

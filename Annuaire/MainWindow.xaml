@@ -4,21 +4,43 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Annuaire"
-        xmlns:Views="clr-namespace:Annuaire.View"
+        xmlns:Views="clr-namespace:Annuaire.View" xmlns:Template="clr-namespace:Annuaire.View.Template"
         WindowStyle="SingleBorderWindow"
         WindowState = "Maximized"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Background="AliceBlue">
+    <Window.InputBindings>
+        <KeyBinding Key="L" Modifiers="Ctrl+Shift" Command="{Binding OpenAdminViewCommand}"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="Chocolate">
-           <TextBlock Text="Annuaire" FontSize="30" FontWeight="Bold" HorizontalAlignment="Left" Margin="5"></TextBlock> 
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+           <TextBlock Grid.Column="0" Text="Annuaire" FontSize="30" FontWeight="Bold" HorizontalAlignment="Left" Margin="5"></TextBlock>
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Template:ButonNormal Grid.Row="0" Grid.Column="0" Content="Gestion Sites" Width="150" FontSize="16" Command="{Binding NavigationCommand}" CommandParameter="Sites" Background="DarkBlue" Margin="5" Visibility="{Binding AdminContentVisibility}"/>
+                <Template:ButonNormal Grid.Row="0" Grid.Column="1" Content="Gestion Salariés" Width="150" FontSize="16" Command="{Binding NavigationCommand}" CommandParameter="Salaries" Background="DarkBlue" Margin="5" Visibility="{Binding AdminContentVisibility}"/>
+                <Template:ButonNormal Grid.Row="1" Grid.Column="0" Content="Gestion Services" Width="150" FontSize="16" Command="{Binding NavigationCommand}" CommandParameter="Services" Background="DarkBlue" Margin="5" Visibility="{Binding AdminContentVisibility}"/>
+            </Grid>
         </Grid>
+        <!--<ContentControl Content="{Binding AdminViewModel}" Grid.Row="1" Panel.ZIndex="20" Visibility="{Binding AdminViewVisibility}"/>-->
         <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}" />
-        <!--<Views:AccueilView Grid.Row="1"/>--> 
+        <Views:AdminView Grid.Row="1" Panel.ZIndex="20" Visibility="{Binding AdminViewVisibility}"/>
 
 
 

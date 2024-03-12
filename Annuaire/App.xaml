@@ -9,6 +9,15 @@
             <DataTemplate DataType="{x:Type viewModel:AccueilViewModel}">
                 <view:AccueilView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:GestionSitesViewModel}">
+                <view:GestionSitesView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:GestionServicesViewModel}">
+                <view:GestionServicesView/>
+            </DataTemplate>
+            <!--<DataTemplate DataType="{x:Type viewModel:AdminViewModel}">
+                <view:AdminView/>
+            </DataTemplate>-->
             <Color x:Key="MainColor">#FF460A26</Color>
             <SolidColorBrush x:Key="MainColorBrush" Color="{StaticResource MainColor}"/>
             <Color x:Key="SecondColor">#F5DEB3</Color>

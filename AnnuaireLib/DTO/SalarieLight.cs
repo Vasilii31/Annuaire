@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,7 +12,11 @@ namespace AnnuaireLib.DTO
 	{
 		public int Id { get; set; }
 		public required string Name { get; set; }
-
 		public required string Surname { get; set; }
+
+		public string Site { get; set; }
+
+		public string Service { get; set; }
+
 	}
 }
