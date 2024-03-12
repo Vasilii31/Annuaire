@@ -83,7 +83,7 @@ namespace Annuaire.ViewModel.ItemsViewModel
 						{
 							if (t.Result == true)
 							{
-								MessageBox.Show("Le site a été supprimé avec succès.");
+								MessageBox.Show("Le Service a été supprimé avec succès.");
 								invoke_DeleteFromListe(this);
 
 							}
@@ -106,7 +106,7 @@ namespace Annuaire.ViewModel.ItemsViewModel
 		{
 			if (this.Service.Name == "")
 			{
-				MessageBox.Show("Vous ne pouvez pas enregistrer un nom de site vide.", "Erreur");
+				MessageBox.Show("Vous ne pouvez pas enregistrer un nom de Service vide.", "Erreur");
 				return;
 			}
 
@@ -123,7 +123,7 @@ namespace Annuaire.ViewModel.ItemsViewModel
 				}
 				else
 				{
-					MessageBox.Show("Site modifié");
+					MessageBox.Show("Service modifié");
 					DisplayVisibility = Visibility.Visible;
 					ModifVisibility = Visibility.Hidden;
 

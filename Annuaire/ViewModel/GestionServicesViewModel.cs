@@ -41,7 +41,7 @@ namespace Annuaire.ViewModel
 		{
 			if (NewServiceName == "")
 			{
-				MessageBox.Show("Vous ne pouvez pas enregistrer un nom de site vide.", "Erreur");
+				MessageBox.Show("Vous ne pouvez pas enregistrer un nom de service vide.", "Erreur");
 				return;
 			}
 

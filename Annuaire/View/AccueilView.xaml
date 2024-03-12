@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:Template="clr-namespace:Annuaire.View.Template" xmlns:View="clr-namespace:Annuaire.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="Cyan">
+             d:DesignHeight="450" d:DesignWidth="800" Background="Lavender">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5"/>
