@@ -27,16 +27,38 @@ namespace Annuaire.View
 			InitializeComponent();
 		}
 
-		private void textChangedEventHandler(object sender, TextChangedEventArgs args)
+		private void NametextChangedEventHandler(object sender, TextChangedEventArgs args)
 		{
 
 			var item = (TextBox)sender;
 
 			AccueilViewModel dtC = (AccueilViewModel)item.DataContext;
 
-			dtC.SearchQuery = item.Text;
+			dtC.NameSearchQuery = item.Text;
 			dtC.ReloadList();
 			
+		}
+		private void SitetextChangedEventHandler(object sender, TextChangedEventArgs args)
+		{
+
+			var item = (TextBox)sender;
+
+			AccueilViewModel dtC = (AccueilViewModel)item.DataContext;
+
+			dtC.SiteSearchQuery = item.Text;
+			dtC.ReloadList();
+
+		}
+		private void ServicetextChangedEventHandler(object sender, TextChangedEventArgs args)
+		{
+
+			var item = (TextBox)sender;
+
+			AccueilViewModel dtC = (AccueilViewModel)item.DataContext;
+
+			dtC.ServiceSearchQuery = item.Text;
+			dtC.ReloadList();
+
 		}
 	}
 }

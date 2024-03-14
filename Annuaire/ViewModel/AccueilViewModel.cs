@@ -23,25 +23,25 @@ namespace Annuaire.ViewModel
 
 		public ObservableCollection<SalarieItemViewModel> ListeSalarieFromSearch { get; set; } = new();
 
-		public ObservableCollection<string> ListeModeRecherche { get; set; } = new ObservableCollection<string>()
-					{
-						"Nom",
-						"Site",
-						"Service",
+		//public ObservableCollection<string> ListeModeRecherche { get; set; } = new ObservableCollection<string>()
+		//			{
+		//				"Nom",
+		//				"Site",
+		//				"Service",
 
-					};
+		//			};
 
-		private string _currentSearchMethod = "Nom";
-		public string CurrentSearchMethod
-		{
-			get { return _currentSearchMethod; }
-			set
-			{
-				_currentSearchMethod = value;
-				OnPropertyChanged(nameof(CurrentSearchMethod));
-				ReloadList();
-			}
-		}
+		//private string _currentSearchMethod = "Nom";
+		//public string CurrentSearchMethod
+		//{
+		//	get { return _currentSearchMethod; }
+		//	set
+		//	{
+		//		_currentSearchMethod = value;
+		//		OnPropertyChanged(nameof(CurrentSearchMethod));
+		//		ReloadList();
+		//	}
+		//}
 
 		public ObservableCollection<SalarieItemViewModel> ListeGauche { get; set; } = new();
 		public ObservableCollection<SalarieItemViewModel> ListeDroite { get; set; } = new();
@@ -179,15 +179,39 @@ namespace Annuaire.ViewModel
 			}
 		}
 
-		private string _searchQuery = "";
+		private string _nameSearchQuery = "";
 
-		public string SearchQuery
+		public string NameSearchQuery
 		{
-			get { return _searchQuery; }
+			get { return _nameSearchQuery; }
 			set
 			{
-				_searchQuery = value;
-				OnPropertyChanged(nameof(SearchQuery));
+				_nameSearchQuery = value;
+				OnPropertyChanged(nameof(NameSearchQuery));
+			}
+		}
+
+		private string _siteSearchQuery = "";
+
+		public string SiteSearchQuery
+		{
+			get { return _siteSearchQuery; }
+			set
+			{
+				_siteSearchQuery = value;
+				OnPropertyChanged(nameof(SiteSearchQuery));
+			}
+		}
+
+		private string _serviceSearchQuery = "";
+
+		public string ServiceSearchQuery
+		{
+			get { return _serviceSearchQuery; }
+			set
+			{
+				_serviceSearchQuery = value;
+				OnPropertyChanged(nameof(ServiceSearchQuery));
 			}
 		}
 
@@ -311,13 +335,23 @@ namespace Annuaire.ViewModel
 				CurrentSalarie.SiteId = CurrentSalarie.Site.Id;
 				CurrentSalarie.Site = null;
 			}
+			else
+			{
+				MessageBox.Show("Veuillez sélectionner un site", "Erreur");
+				return;
+			}
 				
 			if (CurrentSalarie.Service != null)
 			{
 				CurrentSalarie.ServiceId = CurrentSalarie.Service.Id;
 				CurrentSalarie.Service = null;
 			}
-				
+			else
+			{
+				MessageBox.Show("Veuillez sélectionner un service", "Erreur");
+				return;
+			}
+
 			Task.Run(async () =>
 			{
 
@@ -467,7 +501,7 @@ namespace Annuaire.ViewModel
 			ListeGauche.Clear();
 			ListeDroite.Clear();
 
-			if (SearchQuery == "")
+			if (NameSearchQuery == "" && SiteSearchQuery == "" && ServiceSearchQuery == "")
 			{
 				ListeSalarieFromSearch.Clear();
 				//ListeSalarieFromSearch = Salaries;
@@ -498,7 +532,9 @@ namespace Annuaire.ViewModel
 
 		private void Reload(object? sender, EventArgs e)
 		{
-			SearchQuery = "";
+			NameSearchQuery = "";
+			SiteSearchQuery = "";
+			ServiceSearchQuery = "";
 			GetSalaries();
 		}
 
@@ -523,36 +559,82 @@ namespace Annuaire.ViewModel
 			ListeSalarieFromSearch.Clear();
 
 			//ListeSalarieFromSearch = Salaries.Where(p => p.SalarieLight.Name.Contains(SearchQuery)).Select(p => p);
-			switch (CurrentSearchMethod)
+			foreach (var item in Salaries)
 			{
-				case "Nom":
-					foreach (var item in Salaries)
+				bool nameFilter = false;
+				bool siteFilter = false;
+				bool serviceFilter = false;
+
+				if (NameSearchQuery != "")
+				{
+					if (item.FullName.ToLower().Contains(NameSearchQuery.ToLower()))
 					{
-						if (item.FullName.ToLower().Contains(SearchQuery.ToLower()))
-						{
-							ListeSalarieFromSearch.Add(item);
-						}
+						nameFilter = true;
 					}
-					break;
-				case "Service":
-					foreach (var item in Salaries)
+				}
+				else
+					nameFilter = true;
+
+				if (SiteSearchQuery != "")
+				{
+					if (item.SalarieLight.Site.ToLower().Contains(SiteSearchQuery.ToLower()))
 					{
-						if (item.SalarieLight.Service.ToLower().Contains(SearchQuery.ToLower()))
-						{
-							ListeSalarieFromSearch.Add(item);
-						}
+						siteFilter = true;
 					}
-					break;
-				case "Site":
-					foreach (var item in Salaries)
+				}
+				else
+					siteFilter = true;
+
+				if (ServiceSearchQuery != "")
+				{
+					if (item.SalarieLight.Service.ToLower().Contains(ServiceSearchQuery.ToLower()))
 					{
-						if (item.SalarieLight.Site.ToLower().Contains(SearchQuery.ToLower()))
-						{
-							ListeSalarieFromSearch.Add(item);
-						}
+						serviceFilter = true;
 					}
-					break;
+				}
+				else
+					serviceFilter = true;
+
+				if (siteFilter && nameFilter && serviceFilter)
+				{
+					ListeSalarieFromSearch.Add(item);
+					siteFilter = false;
+					nameFilter = false;
+					serviceFilter = false;
+				}
+
 			}
+
+			//switch (CurrentSearchMethod)
+			//{
+			//	case "Nom":
+			//		foreach (var item in Salaries)
+			//		{
+			//			if (item.FullName.ToLower().Contains(SearchQuery.ToLower()))
+			//			{
+			//				ListeSalarieFromSearch.Add(item);
+			//			}
+			//		}
+			//		break;
+			//	case "Service":
+			//		foreach (var item in Salaries)
+			//		{
+			//			if (item.SalarieLight.Service.ToLower().Contains(SearchQuery.ToLower()))
+			//			{
+			//				ListeSalarieFromSearch.Add(item);
+			//			}
+			//		}
+			//		break;
+			//	case "Site":
+			//		foreach (var item in Salaries)
+			//		{
+			//			if (item.SalarieLight.Site.ToLower().Contains(SearchQuery.ToLower()))
+			//			{
+			//				ListeSalarieFromSearch.Add(item);
+			//			}
+			//		}
+			//		break;
+			//}
 			TotalItems = ListeSalarieFromSearch.Count;
 			CalculateNumberOfPages();
 			CurrentPage = 1;

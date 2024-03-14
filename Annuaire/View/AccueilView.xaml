@@ -24,6 +24,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
@@ -31,11 +32,26 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="Rechercher un salarié :" FontSize="18"   Margin="10" FontStyle="Italic"/>
-                <TextBox Grid.Column="1" Width="500" Margin="10" HorizontalAlignment="Left" Text="{Binding SearchQuery}" TextChanged="textChangedEventHandler" />
+                <TextBlock Grid.Column="0" Text="Recherche par Nom :   " FontSize="16"  FontStyle="Italic"/>
+                <TextBox Grid.Column="1" Width="500"  HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding NameSearchQuery}" TextChanged="NametextChangedEventHandler" />
             </Grid>
-
             <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Recherche par Service :   " FontSize="16"  FontStyle="Italic"/>
+                <TextBox Grid.Column="1" Width="500" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding ServiceSearchQuery}" TextChanged="ServicetextChangedEventHandler" />
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Recherche par Site :   " FontSize="16"  FontStyle="Italic"/>
+                <TextBox Grid.Column="1" Width="500" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding SiteSearchQuery}" TextChanged="SitetextChangedEventHandler" />
+            </Grid>
+            <!--<Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="Auto"/>
@@ -46,7 +62,7 @@
                     <ComboBox   Height="30"  ItemsSource="{Binding ListeModeRecherche}"  SelectedItem="{Binding CurrentSearchMethod}" Width="150"/>
                 </StackPanel>
 
-            </Grid>
+            </Grid>-->
 
         </Grid>
 
@@ -80,20 +96,25 @@
                 <!-- - - - - - - - - -   LISTE DE GAUCHE - - - - - - - - - - - - - -  -->
                 <!-- - - - - - - - - -   LISTE DE GAUCHE - - - - - - - - - - - - - -  -->
                 <!-- - - - - - - - - -   LISTE DE GAUCHE - - - - - - - - - - - - - -  -->
-                <ListBox ItemsSource="{Binding ListeGauche}" Grid.Column="0" MaxHeight="350" MinWidth="350">
+                <ListBox ItemsSource="{Binding ListeGauche}" Grid.Column="0" MaxHeight="350" MinWidth="450">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid Margin="0, 5, 0, 20">
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="40" />
                                     <ColumnDefinition Width="40" />
 
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock  Grid.Column="0" Text="{Binding FullName}" FontSize="20"  HorizontalAlignment="Left" FontWeight="Bold" Margin="10" />
-                                <Template:BoutonConsultation Grid.Column="1" Margin="3" Command="{Binding ConsultSalarieCommand}"/>
-                                <Template:ButtonDelete Grid.Column="2" Margin="3" Command="{Binding DeleteSalarieCommand}" Visibility="{Binding AdminContentVisibility}"/>
+                                <TextBlock  Grid.Column="0" Text="{Binding FullName}" FontSize="16"  HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="3" />
+                                <TextBlock Grid.Column="1" Text="{Binding SalarieLight.Service}" FontSize="12"  HorizontalAlignment="Left" VerticalAlignment="Center"  FontStyle="Italic" Margin="3" />
+                                <TextBlock  Grid.Column="2" Text="{Binding SalarieLight.Site}" FontSize="12"   HorizontalAlignment="Left" FontStyle="Italic" VerticalAlignment="Center"  Margin="3" />
+
+                                <Template:BoutonConsultation Grid.Column="3" Margin="3" Command="{Binding ConsultSalarieCommand}"/>
+                                <Template:ButtonDelete Grid.Column="4" Margin="3" Command="{Binding DeleteSalarieCommand}" Visibility="{Binding AdminContentVisibility}"/>
 
                             </Grid>
                         </DataTemplate>
@@ -110,21 +131,25 @@
                 <!-- - - - - - - - - -   LISTE DE DROITE - - - - - - - - - - - - - -  -->
                 <!-- - - - - - - - - -   LISTE DE DROITE - - - - - - - - - - - - - -  -->
 
-                <ListBox ItemsSource="{Binding ListeDroite}" Grid.Column="2" MaxHeight="350" MinWidth="350">
+                <ListBox ItemsSource="{Binding ListeDroite}" Grid.Column="2" MaxHeight="350" MinWidth="450">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid Margin="0, 5, 0, 20">
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="40" />
                                     <ColumnDefinition Width="40" />
 
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding FullName}" FontSize="20"  HorizontalAlignment="Left" FontWeight="Bold" Margin="10" />
+                                <TextBlock  Grid.Column="0" Text="{Binding FullName}" FontSize="16"  HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="3" />
+                                <TextBlock Grid.Column="1" Text="{Binding SalarieLight.Service}" FontSize="12"  HorizontalAlignment="Left" VerticalAlignment="Center"  FontStyle="Italic" Margin="3" />
+                                <TextBlock  Grid.Column="2" Text="{Binding SalarieLight.Site}" FontSize="12"   HorizontalAlignment="Left" FontStyle="Italic" VerticalAlignment="Center"  Margin="3" />
                                 
-                                <Template:BoutonConsultation Grid.Column="1" Margin="3" Command="{Binding ConsultSalarieCommand}"/>
-                                <Template:ButtonDelete Grid.Column="2" Margin="3" Command="{Binding DeleteSalarieCommand}" Visibility="{Binding AdminContentVisibility}"/>
+                                <Template:BoutonConsultation Grid.Column="3" Margin="3" Command="{Binding ConsultSalarieCommand}"/>
+                                <Template:ButtonDelete Grid.Column="4" Margin="3" Command="{Binding DeleteSalarieCommand}" Visibility="{Binding AdminContentVisibility}"/>
 
                             </Grid>
                         </DataTemplate>

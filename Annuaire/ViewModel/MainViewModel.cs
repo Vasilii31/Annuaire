@@ -150,6 +150,8 @@ namespace Annuaire.ViewModel
 
 		private void OpenAdminView(object obj)
 		{
+			if (App.Current.Properties["status"] == "admin")
+				return;
 			AdminViewVisibility = Visibility.Visible;
 		}
 
