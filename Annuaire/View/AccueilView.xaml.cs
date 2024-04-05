@@ -33,10 +33,12 @@ namespace Annuaire.View
 			var item = (TextBox)sender;
 
 			AccueilViewModel dtC = (AccueilViewModel)item.DataContext;
+			if (dtC != null)
+			{
+				dtC.NameSearchQuery = item.Text;
+				dtC.ReloadList();
+			}
 
-			dtC.NameSearchQuery = item.Text;
-			dtC.ReloadList();
-			
 		}
 		private void SitetextChangedEventHandler(object sender, TextChangedEventArgs args)
 		{
@@ -44,9 +46,11 @@ namespace Annuaire.View
 			var item = (TextBox)sender;
 
 			AccueilViewModel dtC = (AccueilViewModel)item.DataContext;
-
-			dtC.SiteSearchQuery = item.Text;
-			dtC.ReloadList();
+			if (dtC != null)
+			{
+				dtC.SiteSearchQuery = item.Text;
+				dtC.ReloadList();
+			}
 
 		}
 		private void ServicetextChangedEventHandler(object sender, TextChangedEventArgs args)
@@ -55,9 +59,11 @@ namespace Annuaire.View
 			var item = (TextBox)sender;
 
 			AccueilViewModel dtC = (AccueilViewModel)item.DataContext;
-
-			dtC.ServiceSearchQuery = item.Text;
-			dtC.ReloadList();
+			if (dtC != null)
+			{
+				dtC.ServiceSearchQuery = item.Text;
+				dtC.ReloadList();
+			}
 
 		}
 	}
